@@ -1,2 +1,8 @@
 ---
 # defaults file for ansible-role-cloudvm
+#
+updatedpkgs: false
+role_actions:
+  - pkg-upgrade
+  - xfce4-install
+  - xrdp-install

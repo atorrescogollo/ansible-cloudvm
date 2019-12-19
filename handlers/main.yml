@@ -1,2 +1,7 @@
 ---
 # handlers file for ansible-role-cloudvm
+
+- name: Restart xrdp
+  systemd:
+    name: xrdp
+    state: restarted

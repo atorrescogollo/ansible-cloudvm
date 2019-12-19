@@ -1,0 +1,17 @@
+#
+# Package upgrade task
+#
+
+- name: Upgrade packages
+  apt:
+    name: '*'
+    state: latest
+    update_cache: yes
+    force_apt_get: true
+  when: not updatedpkgs
+  tags:
+    cloudvm-pkg-upgrade
+  
+- set_fact:
+    updatedpkgs: true
+  when: not updatedpkgs

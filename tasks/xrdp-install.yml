@@ -1,0 +1,37 @@
+# 
+# XRDP installation and setup
+#
+
+- include_tasks: pkg-upgrade.yml
+  tags:
+    - cloudvm-xrdp-install
+
+- include_tasks: xfce4-install.yml
+  tags:
+    - cloudvm-xrdp-install
+
+- name: Install xrdp
+  apt:
+    pkg:
+      - xrdp
+    state: latest
+  tags:
+    - cloudvm-xrdp-install
+
+- name: Append group ssl-cert to xrdp user
+  user:
+    name: xrdp
+    groups: ssl-cert
+  tags:
+    - cloudvm-xrdp-install
+
+- name: Configure xrdp to run xfce
+  lineinfile:
+    path: /etc/xrdp/xrdp.ini
+    line: 'exec startxfce4'
+  notify:
+    - Restart xrdp
+  tags:
+    - cloudvm-xrdp-install
+
+
