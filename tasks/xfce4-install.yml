@@ -1,9 +1,4 @@
 
-- include_tasks: pkg-upgrade.yml
-  run_once: true
-  tags:
-    - cloudvm-xfce4-install
-
 - name: Install xfce4 stuff
   apt:
     pkg:
@@ -12,5 +7,8 @@
       - xorg
       - dbus-x11
       - x11-xserver-utils
+    update_cache: yes
+    cache_valid_time: 3600
   tags:
+    - cloudvm
     - cloudvm-xfce4-install

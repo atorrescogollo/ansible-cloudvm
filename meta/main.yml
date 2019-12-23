@@ -1,12 +1,15 @@
 galaxy_info:
-  author: Alvaro Torres Cogollo
+  author: Álvaro Torres Cogollo
   description: Provide VMs for Cloud-oriented environments
-
   license: MIT
-
   min_ansible_version: 1.2
+
   platforms:
     - name: Debian
-  galaxy_tags: []
+
+  galaxy_tags:
+    - provision
+    - cloudvm
+    - setup
   dependencies: []
   

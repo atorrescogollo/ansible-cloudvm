@@ -5,3 +5,8 @@
   systemd:
     name: xrdp
     state: restarted
+
+- name: Reload ssh
+  systemd:
+    name: ssh
+    state: reloaded

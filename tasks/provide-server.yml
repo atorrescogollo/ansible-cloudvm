@@ -1,0 +1,77 @@
+- name: Update packages
+  apt:
+    name: '*'
+    state: latest
+    update_cache: yes
+    force_apt_get: true
+  tags:
+    - cloudvm
+    - cloudvm-provide-server
+
+- name: Install some packages
+  apt:
+    pkg:
+      - sudo
+      - net-tools
+    force_apt_get: true
+  tags:
+    - cloudvm
+    - cloudvm-provide-server
+
+- name: Include credentials if exists
+  include_vars: credentials.yml
+  ignore_errors: yes
+  tags:
+    - cloudvm
+    - cloudvm-provide-server
+
+- name: Setup xrdp
+  include_tasks: xrdp-install.yml
+  tags:
+    - cloudvm
+    - cloudvm-provide-server
+
+- name: Setup user with sudo privileges
+  block:
+    - name: Make sure we have a wheel group
+      group:
+        name: wheel
+        state: present
+
+    - name: Allow wheel group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Set user password and add user to wheel group
+      user:
+        name: "{{ user | default('root') }}"
+        password: "{{ userpasswd | password_hash('sha512') }}"
+        createhome: yes
+        groups: wheel
+        shell: /bin/bash
+
+    - name: Setup authorized_keys for user
+      authorized_key:
+        user: "{{ user | default('root') }}"
+        state: present
+        key: "{{ lookup('file', 'id_rsa.pub') }}"
+
+    - name: Disable ssh Password Authentication
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^PasswordAuthentication"
+        insertafter: "^#PasswordAuthentication"
+        line: "PasswordAuthentication no"
+      notify:
+        - Reload ssh
+
+  when: userpasswd is defined
+  tags:
+    - cloudvm
+    - cloudvm-provide-server
+
+
