@@ -20,9 +20,9 @@
     insertafter: '^\[{{ item.section }}\]$'
     line: "{{ item.key }}={{ item.value }}"
   with_items:
-    - {key: AllowRootLogin , value: 'false', section: Security , configfile: /etc/xrdp/sesman.ini}
-    - {key: MaxSessions , value: 2, section: Sessions , configfile: /etc/xrdp/sesman.ini}
-    - {key: KillDisconnected , value: 'true', section: Sessions , configfile: /etc/xrdp/sesman.ini}
+    - {key: AllowRootLogin, value: 'false', section: Security, configfile: /etc/xrdp/sesman.ini}
+    - {key: MaxSessions, value: 2, section: Sessions, configfile: /etc/xrdp/sesman.ini}
+    - {key: KillDisconnected, value: 'true', section: Sessions, configfile: /etc/xrdp/sesman.ini}
   tags:
     - cloudvm
     - cloudvm-xrdp-install
@@ -53,4 +53,3 @@
   tags:
     - cloudvm
     - cloudvm-xrdp-install
-
