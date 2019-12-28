@@ -2,10 +2,11 @@
 # XRDP installation and setup
 #
 
-- name: Install xrdp
+- name: Install xrdp with xorg
   apt:
     pkg:
       - xrdp
+      - xorgxrdp
     update_cache: yes
     cache_valid_time: 3600
   tags:
